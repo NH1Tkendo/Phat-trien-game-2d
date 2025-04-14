@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icone-cercle-rempli-bleu_0: 8337949495808713366
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
