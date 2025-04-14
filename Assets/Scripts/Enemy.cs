@@ -1,27 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
+	public Transform target;
+	public float moveSpeed = 3f;
 
-	public int health = 100;
-
-	public GameObject deathEffect;
-
-	public void TakeDamage (int damage)
+	void Update()
 	{
-		health -= damage;
-
-		if (health <= 0)
+		if (target != null)
 		{
-			Die();
+			Vector3 direction = (target.position - transform.position).normalized;
+			transform.position += direction * moveSpeed * Time.deltaTime;
 		}
 	}
-
-	void Die ()
-	{
-		Instantiate(deathEffect, transform.position, Quaternion.identity);
-		Destroy(gameObject);
-	}
-
 }
