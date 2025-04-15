@@ -1,27 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
+	public Transform target;
+	public float moveSpeed = 3f;
 
-	public int health = 100;
-
-	public GameObject deathEffect;
-
-	public void TakeDamage (int damage)
+	void Update()
 	{
-		health -= damage;
-
-		if (health <= 0)
+		// Nếu chưa có target thì tìm lại
+		if (target == null)
 		{
-			Die();
+			GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+			if (playerObj != null)
+			{
+				target = playerObj.transform;
+			}
+		}
+
+		if (target != null)
+		{
+			Vector3 direction = (target.position - transform.position).normalized;
+			transform.position += direction * moveSpeed * Time.deltaTime;
 		}
 	}
 
-	void Die ()
+	void OnCollisionEnter2D(Collision2D collision)
 	{
-		Instantiate(deathEffect, transform.position, Quaternion.identity);
-		Destroy(gameObject);
+		if (collision.gameObject.CompareTag("Enemy"))
+		{
+			Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+		}
 	}
-
 }

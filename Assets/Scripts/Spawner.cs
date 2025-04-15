@@ -1,58 +1,80 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-	public GameObject portalPrefab;         // Prefab của Portal
-	public GameObject enemyPrefab;          // Prefab của quái
-	public Transform player;                // Player để quái đuổi theo
-	public float portalLifetime = 5f;       // Sống bao lâu trước khi biến mất
-	public float enemySpawnInterval = 0.5f; // Thời gian spawn quái liên tiếp
-	public Vector2[] spawnPositions;        // Các vị trí random để spawn Portal
+	[Header("Prefabs")]
+	public GameObject portalPrefab;
+	public GameObject[] enemyPrefab;
 
-	public float timeBetweenPortals = 10f;  // Khoảng cách giữa 2 đợt portal
+	[Header("Spawn Settings")]
+	private float portalActiveDuration = 10f;// thời gian portal mở
 
-	private void Start()
+	public void SetPortalActiveDuration(float duration)
 	{
-		StartCoroutine(SpawnPortalLoop());
+		portalActiveDuration = duration;
+	}
+	
+	private float spawnInterval = 2f; // khoảng cách thời gian giữa các enemy
+	public void SetSpawnInteval(float time)
+	{
+		spawnInterval = time;
 	}
 
-	IEnumerator SpawnPortalLoop()
+	private GameObject currentPortal;
+	private bool isSpawning = false;
+
+	/// <summary>
+	/// Gọi từ GameManager để bắt đầu quá trình spawn
+	/// </summary>
+	/// <param name="position">Vị trí spawn portal</param>
+	public void StartSpawning(Vector3 position)
 	{
-		while (true)
+		if (isSpawning) return;
+		StartCoroutine(SpawnRoutine(position));
+	}
+
+	private IEnumerator SpawnRoutine(Vector3 position)
+	{
+		isSpawning = true;
+
+		// 1. Tạo portal
+		currentPortal = Instantiate(portalPrefab, position, Quaternion.identity);
+
+		float elapsedTime = 0f;
+
+		// 2. Bắt đầu spawn enemy cho đến khi hết thời gian portal
+		while (elapsedTime < portalActiveDuration)
 		{
-			SpawnPortal();
-			yield return new WaitForSeconds(timeBetweenPortals);
+			SpawnEnemy(position);
+			yield return new WaitForSeconds(spawnInterval);
+			elapsedTime += spawnInterval;
+		}
+
+		// 3. Đóng portal
+		if (currentPortal != null)
+		{
+			Destroy(currentPortal);
+		}
+
+		isSpawning = false;
+	}
+
+	private void SpawnEnemy(Vector3 position)
+	{
+		GameObject enemy = Instantiate(enemyPrefab[Random.Range(0, enemyPrefab.Count())], position, Quaternion.identity);
+
+		// Gán target là player ngay khi spawn
+		Transform player = GameObject.FindGameObjectWithTag("Player")?.transform;
+		if (player != null)
+		{
+			enemy.GetComponent<Enemy>().target = player;
 		}
 	}
 
-	void SpawnPortal()
+	public bool IsSpawning()
 	{
-		// Chọn vị trí random trong danh sách
-		Vector2 spawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-		GameObject portal = Instantiate(portalPrefab, spawnPos, Quaternion.identity);
-
-		// Bắt đầu coroutine spawn quái trong một khoảng thời gian
-		StartCoroutine(SpawnEnemiesFromPortal(portal.transform, portalLifetime));
-
-		// Hủy cổng sau thời gian sống
-		Destroy(portal, portalLifetime);
-	}
-
-	IEnumerator SpawnEnemiesFromPortal(Transform portalTransform, float duration)
-	{
-		float elapsed = 0f;
-		while (elapsed < duration)
-		{
-			GameObject enemy = Instantiate(enemyPrefab, portalTransform.position, Quaternion.identity);
-			Enemy followScript = enemy.GetComponent<Enemy>();
-			if (followScript != null)
-			{
-				followScript.target = player;
-			}
-
-			yield return new WaitForSeconds(enemySpawnInterval);
-			elapsed += enemySpawnInterval;
-		}
+		return isSpawning;
 	}
 }
