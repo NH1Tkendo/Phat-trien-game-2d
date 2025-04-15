@@ -5,16 +5,17 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Block
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
-  - 
-  - 
-  - 
+  - EnemyBullet
+  - PlayerBullet
+  - Ground
   - 
   - 
   - 

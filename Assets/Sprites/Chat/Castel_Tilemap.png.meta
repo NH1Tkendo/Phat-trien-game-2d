@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Castel_Tilemap_0: -4284930120857852052
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
