@@ -18,4 +18,22 @@ public class PortalScript : MonoBehaviour
 			SceneManager.LoadScene("The Invasion");
 		}
 	}
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			isPlayerNearby = true;
+			Debug.Log("Player is nearby!");
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			isPlayerNearby = false;
+			Debug.Log("Player left the portal area.");
+		}
+	}
+
 }
