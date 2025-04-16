@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/The Invasion.unity
     guid: da00feca08c16df4c91516fcd4133704
+  - enabled: 1
+    path: Assets/Scenes/Limbo.unity
+    guid: 7b9a347f54508314ab54ad9d9e092050
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0

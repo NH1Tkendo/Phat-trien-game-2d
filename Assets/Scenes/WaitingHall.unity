@@ -6946,6 +6946,10 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+  invincibleTime: 1
+  spriteRenderer: {fileID: 0}
+  flashColor: {r: 1, g: 1, b: 1, a: 0.3}
+  flashCount: 5
 --- !u!114 &1211519462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7050,6 +7054,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   health: 0
+  healthBarFill: {fileID: 0}
+  deathEffect: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!4 &1211519465
 Transform:
   m_ObjectHideFlags: 0
@@ -17188,6 +17195,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1973673031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1973673033}
+  - component: {fileID: 1973673032}
+  m_Layer: 0
+  m_Name: ResourcesLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1973673032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973673031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56cc35b4151ff9e448d9c9b26ceb2961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinIndi: {fileID: 1391997889}
+--- !u!4 &1973673033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973673031}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.93577, y: 0.5458412, z: 0.8026439}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1975846154
 GameObject:
   m_ObjectHideFlags: 0
@@ -18120,3 +18172,4 @@ SceneRoots:
   - {fileID: 465514866}
   - {fileID: 2296620646263618767}
   - {fileID: 1211519465}
+  - {fileID: 1973673033}

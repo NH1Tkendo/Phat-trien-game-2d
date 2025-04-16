@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour {
 
 	public int health = 100;//Máu quái
 
-	public GameObject deathEffect;//Hiệu ứng chết cho quái
+	public GameObject deathEffect;
+
 
     public void TakeDamage (int damage)
 	{
@@ -23,6 +24,11 @@ public class Enemy : MonoBehaviour {
 	{
 		GameObject death = Instantiate(deathEffect, transform.position, Quaternion.identity);
 		Destroy(death, 2f);
+
+		if (GameManager.Instance != null)
+			GameManager.Instance.AddScore(1);
+
 		Destroy(gameObject);
+		
 	}
 }
