@@ -2,31 +2,32 @@
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 20f;
-    public int damage = 10;
-    public Rigidbody2D rb;
-    public GameObject impactEffect;
+	public float speed = 20f;
+	public int damage = 10;
+	public Rigidbody2D rb;
+	public GameObject impactEffect;
+	public float bulletLifetime = 3f;
 
-    void Start()
-    {
-        rb.linearVelocity = transform.right * speed;
-    }
+	void Start()
+	{
+		rb.linearVelocity = transform.right * speed;
+	}
 
-    void OnTriggerEnter2D(Collider2D hitInfo)
-    {
-        // ✅ Gây sát thương lên enemy thường
-        Enemy enemy = hitInfo.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemy.TakeDamage(damage);
-        }
+	void OnTriggerEnter2D(Collider2D hitInfo)
+	{
+		Enemy enemy = hitInfo.GetComponent<Enemy>();
+		if (enemy != null)
+		{
+			enemy.TakeDamage(damage);
+		}
 
-        // ✅ Hiệu ứng va chạm (nếu có)
-        if (impactEffect != null)
-        {
-            Instantiate(impactEffect, transform.position, transform.rotation);
-        }
+		if (impactEffect != null)
+		{
+			GameObject effect = Instantiate(impactEffect, transform.position, transform.rotation);
+			Destroy(effect, 2f); // chỉ phá hủy bản sao
+		}
 
-        Destroy(gameObject);
-    }
+		Destroy(gameObject); // hủy viên đạn
+	}
 }
+

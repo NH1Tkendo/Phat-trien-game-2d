@@ -20,7 +20,23 @@ public class GameManager : MonoBehaviour
 	private List<Spawner> activeSpawners = new List<Spawner>();
 	private bool isSpawning = false;
 
-	
+	public static GameManager Instance;
+
+	public int score = 0;
+	public TextMeshProUGUI scoreText;
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+			DontDestroyOnLoad(gameObject); // tuỳ chọn
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 	void Start()
 	{
 		StartCoroutine(RoundLoop());
@@ -59,16 +75,16 @@ public class GameManager : MonoBehaviour
 			case 4:
 				portalsPerRound = 2;
 				currentPortalDuration = 10f;
-				currentEnemyInterval = 1f;
+				currentEnemyInterval = 2f;
 				break;
 			case 5:
-				currentPortalDuration = 8f;
-				currentEnemyInterval = 0.8f;
+				currentPortalDuration = 6f;
+				currentEnemyInterval = 3f;
 				break;
 			case 8:
 				portalsPerRound = 3;
 				currentPortalDuration = 9f;
-				currentEnemyInterval = 0.5f;
+				currentEnemyInterval = 2f;
 				break;
 		}
 	}
@@ -98,5 +114,10 @@ public class GameManager : MonoBehaviour
 		}
 		return true;
 	}
-	
+	public void AddScore(int value)
+	{
+		score += value;
+		if (scoreText != null)
+			scoreText.text = "Score: " + score;
+	}
 }

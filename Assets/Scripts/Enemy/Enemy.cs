@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
@@ -7,10 +8,10 @@ public class Enemy : MonoBehaviour {
 	public int health = 100;
 
 	public GameObject deathEffect;
-
     public Transform target;
     public float moveSpeed = 3f;
-    void Update()
+
+	void Update()
     {
         if (target != null)
         {
@@ -30,8 +31,11 @@ public class Enemy : MonoBehaviour {
 
 	void Die ()
 	{
-		Instantiate(deathEffect, transform.position, Quaternion.identity);
+		GameObject death = Instantiate(deathEffect, transform.position, Quaternion.identity);
+		Destroy(death, 2f);
 		Destroy(gameObject);
+
+
 	}
 
 }
