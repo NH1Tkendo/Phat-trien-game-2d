@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     //Máu
     public int maxHealth = 100;
     public int health;
-    
-    private bool isInvincible = false;//iFrame
+	public Image healthBarFill;
+
+	private bool isInvincible = false;//iFrame
     public GameObject deathEffect;
     private Animator animator;//Animation    
     [HideInInspector]
@@ -15,9 +18,11 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        health = maxHealth;
         animator = GetComponent<Animator>();
-    }
+
+        health = maxHealth;
+		UpdateHealthBar();
+	}
 
     public void TakeDamage(int damage)
     {
@@ -25,8 +30,10 @@ public class PlayerHealth : MonoBehaviour
             return;
 
         health -= damage;
+		health = Mathf.Clamp(health, 0, maxHealth);
+		UpdateHealthBar();
 
-        if (animator != null)
+		if (animator != null)
         {
             AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
             if (!currentState.IsName("Dash"))
@@ -43,8 +50,13 @@ public class PlayerHealth : MonoBehaviour
         if (playerMovement != null)
             playerMovement.TriggerTemporaryCollisionIgnore(); // 👇 gọi hàm xử lý
     }
+	void UpdateHealthBar()
+	{
+		if (healthBarFill != null)
+			healthBarFill.fillAmount = (float)health / maxHealth;
+	}
 
-    public void SetInvincible(bool value)
+	public void SetInvincible(bool value)
     {
         isInvincible = value;
     }
@@ -56,6 +68,7 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        SceneManager.LoadScene("Limbo");
     }
 }

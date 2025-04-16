@@ -30,16 +30,28 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        shooter = GetComponent<EnemyShooter>();
-        lastPosition = transform.position;
-    }
-
-		if (playerTransform == null)
+		animator = GetComponent<Animator>();
+		shooter = GetComponent<EnemyShooter>();
+		lastPosition = transform.position;
+		//Hàm chỉnh hướng quay mặt của quái
+		GameObject playerObj = GameObject.FindWithTag("Player");
+		if (playerObj != null)
 		{
-			GameObject playerObj = GameObject.FindWithTag("Player");
-			if (playerObj != null)
-				playerTransform = playerObj.transform;
+			playerTransform = playerObj.transform;
+
+			float dir = Mathf.Sign(playerTransform.position.x - transform.position.x);
+			if (dir != 0)
+			{
+				Vector3 scale = transform.localScale;
+				scale.x = Mathf.Abs(scale.x) * dir;
+				transform.localScale = scale;
+				facingRight = dir > 0;
+				lastMoveDirection = dir;
+			}
+		}
+		else
+		{
+			Debug.LogWarning($"{name}: Không tìm thấy Player trong scene!");
 		}
 
 		// Tự tìm patrol points

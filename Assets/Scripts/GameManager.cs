@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,19 +19,18 @@ public class GameManager : MonoBehaviour
 
 	private int currentRound = 0;
 	private List<Spawner> activeSpawners = new List<Spawner>();
-	private bool isSpawning = false;
 
 	public static GameManager Instance;
 
 	public int score = 0;
 	public TextMeshProUGUI scoreText;
 
+	private int maxRound = 8;
 	void Awake()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
-			DontDestroyOnLoad(gameObject); // tuỳ chọn
 		}
 		else
 		{
@@ -47,9 +47,13 @@ public class GameManager : MonoBehaviour
 		while (true)
 		{
 			yield return new WaitForSeconds(1.5f);
-			
 
 			currentRound++;
+			if (maxRound == currentRound)
+			{
+				SaveManager.SaveCoins(score);
+				SceneManager.LoadScene("Limbo");
+			}
 			DifficultSetting(currentRound);
 			roundIndi.text = "Round: " + currentRound;
 
@@ -68,24 +72,35 @@ public class GameManager : MonoBehaviour
 	{
 		switch (currentRound)
 		{
-			case 3:
+			case 2:
 				currentPortalDuration = 10f;
 				currentEnemyInterval = 1.5f;
 				break;
-			case 4:
+			case 3:
 				portalsPerRound = 2;
 				currentPortalDuration = 10f;
 				currentEnemyInterval = 2f;
 				break;
-			case 5:
+			case 4:
 				currentPortalDuration = 6f;
 				currentEnemyInterval = 3f;
 				break;
-			case 8:
+			case 5:
 				portalsPerRound = 3;
 				currentPortalDuration = 9f;
 				currentEnemyInterval = 2f;
 				break;
+			case 7:
+				portalsPerRound = 1;
+				currentPortalDuration = 1f;
+				currentEnemyInterval = 1f;
+				break;
+			case 8:
+				portalsPerRound = 0;
+				currentPortalDuration = 0f;
+				currentEnemyInterval = 0f;
+				break;
+
 		}
 	}
 	private void SpawnPortals()
@@ -118,6 +133,6 @@ public class GameManager : MonoBehaviour
 	{
 		score += value;
 		if (scoreText != null)
-			scoreText.text = "Score: " + score;
+			scoreText.text = "" + score;
 	}
 }
