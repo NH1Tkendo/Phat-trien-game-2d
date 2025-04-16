@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portalPrefab: {fileID: 8029499172106000609, guid: c6b575ff27247cb48afe2f984398e129, type: 3}
   enemyPrefab:
+  - {fileID: 2640567090209392474, guid: 029243c179cd2e34fba1b25255e17bdc, type: 3}
   - {fileID: 2640567090209392474, guid: 28fb61e75fd01b84090e78ff9387a821, type: 3}
-  - {fileID: 7260452720958773987, guid: e53fa21460d44ba40bea71cf63208e70, type: 3}
