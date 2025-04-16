@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Block
+  - patrol
   layers:
   - Default
   - TransparentFX
