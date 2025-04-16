@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8379694193069742884}
   - component: {fileID: 2136578158840215367}
   - component: {fileID: 5861293388667520061}
+  - component: {fileID: 2892218064710808896}
   - component: {fileID: 8927720486303158031}
   - component: {fileID: 2087869110696492198}
   m_Layer: 3
@@ -126,6 +127,22 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.71875
+--- !u!114 &2892218064710808896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3009960032390053630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae776ef7fb190534dbfbb90484a1a9db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  deathEffect: {fileID: 1473625048454486, guid: 284f05ab582ef494a9ab1dd8bc1e76ae, type: 3}
+  target: {fileID: 0}
+  moveSpeed: 3
 --- !u!50 &8927720486303158031
 Rigidbody2D:
   serializedVersion: 5
@@ -167,5 +184,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   lifetime: 5
-  health: 1
-  deathEffect: {fileID: 1755349173569476, guid: 3c45864be6a059a4a82a25e285298338, type: 3}

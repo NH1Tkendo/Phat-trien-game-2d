@@ -10,33 +10,27 @@ public class EnemyBullets : MonoBehaviour
         Destroy(gameObject, lifetime); // tự hủy sau X giây
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        // ✅ Nếu trúng đạn người chơi → bỏ qua
-        if (other.GetComponent<Bullet>() != null)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            return;
-        }
+            PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
 
-        // ✅ Nếu trúng Player
-        if (other.CompareTag("Player"))
-        {
-            PlayerHealth ph = other.GetComponent<PlayerHealth>();
-            if (ph != null && !ph.IsInvincible())
+            if (playerMovement != null && playerHealth != null)
             {
-                ph.TakeDamage(damage);
+                // Bỏ qua nếu player đang invincible (khi dodge)
+                if (playerHealth.IsInvincible()) return;
+
+                playerMovement.KBCounter = playerMovement.KBTotalTime;
+
+                playerMovement.KnockFromRight = collision.transform.position.x <= transform.position.x;
+
+                playerHealth.TakeDamage(damage);
             }
-            Destroy(gameObject);
         }
         // ✅ Nếu trúng Block → hủy ngay
-        else if (other.CompareTag("Block"))
-        {
-            Destroy(gameObject);
-        }
-        // ✅ Nếu trúng thứ khác không phải Enemy → cũng hủy
-        else if (!other.CompareTag("Enemy"))
-        {
-            Destroy(gameObject);
-        }
+        if (collision.CompareTag("Block"))        
+            Destroy(gameObject);        
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0e2a4e1e7a9b784408c167b9ed06baf2
+guid: c5284a5191472574cb4c74fb081e7988
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1372335161102834277
-    second: Dragon_0
+      213: 700335502410681348
+    second: All Characters_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,6 +96,8 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< HEAD:Assets/Animation/Skeleton/Monsters_Creatures_Fantasy/All Characters.png.meta
+=======
   - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
@@ -122,27 +124,36 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+>>>>>>> 96c79d8c0b65eb6b850b2fd96d959721c45f7f45:Assets/Sprites/Chat/Dragon.png.meta
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dragon_0
+      name: All Characters_0
       rect:
         serializedVersion: 2
         x: 0
+<<<<<<< HEAD:Assets/Animation/Skeleton/Monsters_Creatures_Fantasy/All Characters.png.meta
+        y: 0
+        width: 630
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+=======
         y: 768
         width: 256
         height: 256
       alignment: 1
       pivot: {x: 0, y: 1}
+>>>>>>> 96c79d8c0b65eb6b850b2fd96d959721c45f7f45:Assets/Sprites/Chat/Dragon.png.meta
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 56a105ede838b0310800000000000000
-      internalID: 1372335161102834277
+      spriteID: 40c88cccd6718b900800000000000000
+      internalID: 700335502410681348
       vertices: []
       indices: 
       edges: []
@@ -508,3 +519,4 @@ TextureImporter:
       Dragon_8: 943302849
       Dragon_9: 401554693
 
+ 96c79d8c0b65eb6b850b2fd96d959721c45f7f45:Assets/Sprites/Chat/Dragon.png.meta

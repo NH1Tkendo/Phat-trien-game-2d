@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour {
             transform.position += direction * moveSpeed * Time.deltaTime;
         }
     }
+
     public void TakeDamage (int damage)
 	{
 		health -= damage;
