@@ -2,9 +2,13 @@
 
 public class EnemyMovement : MonoBehaviour
 {
+    //Các biến để tuần tra của mục tiêu
     public Transform[] patrolPoints;
-    public float moveSpeed;
     public int patrolDestination;
+    //Các biến liên quan đến di chuyển
+    public float moveSpeed = 3f;//Tốc độ di chuyển
+    private float xVelocity = 0f;//Biến để truyền vào animator
+    private Vector3 lastPosition;
 
     private Animator animator;
     private bool facingRight = true;
@@ -27,6 +31,7 @@ public class EnemyMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         shooter = GetComponent<EnemyShooter>();
+        lastPosition = transform.position;
     }
 
     void Update()
@@ -61,6 +66,12 @@ public class EnemyMovement : MonoBehaviour
             HandleChase(distanceToPlayer);
         else
             HandlePatrol();
+        // ✅ Tính xVelocity sau khi đã di chuyển xong
+        xVelocity = (transform.position.x - lastPosition.x) / Time.deltaTime;
+        lastPosition = transform.position;
+
+        if (animator != null)
+            animator.SetFloat("xVelocity", Mathf.Abs(xVelocity));
     }
 
     void HandleChase(float distanceToPlayer)
