@@ -10,7 +10,6 @@ public class Spawner : MonoBehaviour
 
 	[Header("Spawn Settings")]
 	private float portalActiveDuration = 10f;// thời gian portal mở
-
 	public void SetPortalActiveDuration(float duration)
 	{
 		portalActiveDuration = duration;
@@ -64,13 +63,6 @@ public class Spawner : MonoBehaviour
 	private void SpawnEnemy(Vector3 position)
 	{
 		GameObject enemy = Instantiate(enemyPrefab[Random.Range(0, enemyPrefab.Count())], position, Quaternion.identity);
-
-		// Gán target là player ngay khi spawn
-		Transform player = GameObject.FindGameObjectWithTag("Player")?.transform;
-		if (player != null)
-		{
-			enemy.GetComponent<Enemy>().target = player;
-		}
 	}
 
 	public bool IsSpawning()

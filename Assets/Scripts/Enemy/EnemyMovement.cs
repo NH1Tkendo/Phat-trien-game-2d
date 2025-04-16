@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -34,6 +35,28 @@ public class EnemyMovement : MonoBehaviour
         lastPosition = transform.position;
     }
 
+		if (playerTransform == null)
+		{
+			GameObject playerObj = GameObject.FindWithTag("Player");
+			if (playerObj != null)
+				playerTransform = playerObj.transform;
+		}
+
+		// Tự tìm patrol points
+		if (patrolPoints == null || patrolPoints.Length == 0)
+		{
+			GameObject[] points = GameObject.FindGameObjectsWithTag("Patrol");
+			if (points.Length > 0)
+			{
+				patrolPoints = points.Select(p => p.transform).ToArray();
+			}
+			else
+			{
+				Debug.LogWarning($"{name}: Không tìm thấy patrol points nào trong scene!");
+			}
+		}
+	}
+
     void Update()
     {
         if (shooter != null)
@@ -54,7 +77,10 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+		if (playerTransform == null || patrolPoints == null || patrolPoints.Length == 0)
+			return;
+
+		float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
 
         if (!isChasing && distanceToPlayer < chaseDistance)
         {
@@ -100,26 +126,44 @@ public class EnemyMovement : MonoBehaviour
             animator.SetBool("IsMoving", true);
     }
 
-    void HandlePatrol()
-    {
-        Transform targetPoint = patrolPoints[patrolDestination];
-        Vector3 direction = targetPoint.position - transform.position;
-        float moveDir = Mathf.Sign(direction.x);
+	void HandlePatrol()
+	{
+		if (patrolPoints == null || patrolPoints.Length == 0)
+		{
+			Debug.LogWarning($"{name}: patrolPoints null hoặc rỗng trong HandlePatrol");
+			return;
+		}
 
-        UpdateFacing(moveDir);
-        transform.position = Vector2.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
+		if (patrolDestination < 0 || patrolDestination >= patrolPoints.Length)
+		{
+			Debug.LogWarning($"{name}: patrolDestination không hợp lệ!");
+			return;
+		}
 
-        if (Vector2.Distance(transform.position, targetPoint.position) < 0.2f)
-        {
-            patrolDestination = 1 - patrolDestination;
-            StartIdle();
-        }
+		Transform targetPoint = patrolPoints[patrolDestination];
+		if (targetPoint == null)
+		{
+			return;
+		}
 
-        if (animator != null)
-            animator.SetBool("IsMoving", true);
-    }
+		Vector3 direction = targetPoint.position - transform.position;
+		float moveDir = Mathf.Sign(direction.x);
 
-    void StopChase()
+		UpdateFacing(moveDir);
+		transform.position = Vector2.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
+
+		if (Vector2.Distance(transform.position, targetPoint.position) < 0.2f)
+		{
+			patrolDestination = (patrolDestination + 1) % patrolPoints.Length;
+			StartIdle();
+		}
+
+		if (animator != null)
+			animator.SetBool("IsMoving", true);
+	}
+
+
+	void StopChase()
     {
         isChasing = false;
         chaseTimer = 0f;

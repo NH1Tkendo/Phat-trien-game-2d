@@ -29,7 +29,8 @@ public class RayCastWeapon : MonoBehaviour {
 				enemy.TakeDamage(damage);
 			}
 
-			Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
+			GameObject effect = Instantiate(impactEffect, transform.position, transform.rotation);
+			Destroy(effect, 2f); // chỉ phá hủy bản sao
 
 			lineRenderer.SetPosition(0, firePoint.position);
 			lineRenderer.SetPosition(1, hitInfo.point);
