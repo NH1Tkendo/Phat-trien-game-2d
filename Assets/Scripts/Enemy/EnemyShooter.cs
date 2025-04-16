@@ -2,6 +2,7 @@
 
 public class EnemyShooter : MonoBehaviour
 {
+    [HideInInspector]
     public Transform firePoint;
     public GameObject bulletPrefab;
     public float bulletSpeed = 10f;
@@ -14,6 +15,25 @@ public class EnemyShooter : MonoBehaviour
 
     [HideInInspector]
     public bool isChasing = false;
+    //Hàm gán FirePoint
+    void Awake()
+    {
+        if (firePoint == null)
+        {
+            firePoint = transform.Find("FirePoint");
+            if (firePoint == null)
+            {
+                Debug.LogWarning($"{name}: Không tìm thấy FirePoint! Đảm bảo prefab có child tên chính xác.");
+            }
+        }
+
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+                player = playerObj.transform;
+        }
+    }
 
     void Update()
     {
