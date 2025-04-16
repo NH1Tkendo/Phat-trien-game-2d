@@ -14,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
     private Animator animator;
     private bool facingRight = true;
 
-    public Transform playerTransform;
+    private Transform playerTransform;
     public bool isChasing;
     public float chaseDistance;
     public float chaseTimeout = 3f;
@@ -27,35 +27,46 @@ public class EnemyMovement : MonoBehaviour
     private float lastMoveDirection = 0f;
 
     private EnemyShooter shooter;
-
+    //Update để khi quái spawn sẽ luôn quay về hướng player bất kể ở phía nào
     void Start()
     {
         animator = GetComponent<Animator>();
         shooter = GetComponent<EnemyShooter>();
         lastPosition = transform.position;
+        //Hàm chỉnh hướng quay mặt của quái
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+
+            float dir = Mathf.Sign(playerTransform.position.x - transform.position.x);
+            if (dir != 0)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x) * dir;
+                transform.localScale = scale;
+                facingRight = dir > 0;
+                lastMoveDirection = dir;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"{name}: Không tìm thấy Player trong scene!");
+        }
+
+        if (patrolPoints == null || patrolPoints.Length == 0)
+        {
+            GameObject[] points = GameObject.FindGameObjectsWithTag("Patrol");
+            if (points.Length > 0)
+            {
+                patrolPoints = points.Select(p => p.transform).ToArray();
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: Không tìm thấy patrol points nào trong scene!");
+            }
+        }
     }
-
-		if (playerTransform == null)
-		{
-			GameObject playerObj = GameObject.FindWithTag("Player");
-			if (playerObj != null)
-				playerTransform = playerObj.transform;
-		}
-
-		// Tự tìm patrol points
-		if (patrolPoints == null || patrolPoints.Length == 0)
-		{
-			GameObject[] points = GameObject.FindGameObjectsWithTag("Patrol");
-			if (points.Length > 0)
-			{
-				patrolPoints = points.Select(p => p.transform).ToArray();
-			}
-			else
-			{
-				Debug.LogWarning($"{name}: Không tìm thấy patrol points nào trong scene!");
-			}
-		}
-	}
 
     void Update()
     {
