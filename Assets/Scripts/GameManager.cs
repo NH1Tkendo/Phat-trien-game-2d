@@ -49,11 +49,7 @@ public class GameManager : MonoBehaviour
 			yield return new WaitForSeconds(1.5f);
 
 			currentRound++;
-			if (maxRound == currentRound)
-			{
-				SaveManager.SaveCoins(score);
-				SceneManager.LoadScene("Limbo");
-			}
+
 			DifficultSetting(currentRound);
 			roundIndi.text = "Round: " + currentRound;
 
@@ -63,6 +59,14 @@ public class GameManager : MonoBehaviour
 			// Đợi cho đến khi tất cả portal hoàn tất (tức đã tự đóng)
 			yield return new WaitUntil(() => AllPortalsClosed());
 
+			if (currentRound == maxRound)
+			{
+				yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("Enemy").Length == 0);
+
+				SaveManager.SaveCoins(score);
+				SceneManager.LoadScene("Limbo");
+				yield break; // thoát coroutine luôn
+			}
 			// Chờ thêm một chút trước khi bắt đầu round mới
 			yield return new WaitForSeconds(1.5f);
 		}
@@ -86,14 +90,13 @@ public class GameManager : MonoBehaviour
 				currentEnemyInterval = 3f;
 				break;
 			case 5:
-				portalsPerRound = 3;
 				currentPortalDuration = 9f;
 				currentEnemyInterval = 2f;
 				break;
 			case 7:
-				portalsPerRound = 1;
-				currentPortalDuration = 1f;
-				currentEnemyInterval = 1f;
+				portalsPerRound = 3;
+				currentPortalDuration = 7f;
+				currentEnemyInterval = 2f;
 				break;
 			case 8:
 				portalsPerRound = 0;
